@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/emp_dashboard.css' %}" />
+
+    <title>Employee Dashboard</title>
+  </head>
+  <body>
+    <div class="container main-div position-relative p-0 bg-white main-div">
+      <!-- navbar -->
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-white px-4 px-lg-5 py-3 py-lg-0"
+      >
+        <a href="{% url 'home' %}" class="navbar-brand p-0">
+          <div class="navbar-logo">
+            <img class="logo-img" src="{% static 'images/random_waffle_logo.jpg' %}" alt="" />
+            <h1>Waffle Delight</h1>
+          </div>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto py-0 d-flex justify-content-center align-items-center">
+            <h6 style="margin: 6px;">{{request.user.username}}</h6>
+            <a
+              href="{%url 'logout' %}"
+              class="btn btn-danger rounded-pill text-white logout-btn"
+              >logout</a
+            >
+          </div>
+        </div>
+      </nav>
+      <!-- navbar end -->
+
+      <!-- take order button -->
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-auto d-flex" style="flex-direction: column;">
+
+            {% if messages %}
+            {{ message.tags }}
+                
+                <div class="alert alert-danger" role="alert">
+                  {% for message in messages %}
+                   {{message}}
+                  {% endfor %}
+                </div>
+            {% endif %}
+
+            <button
+              type="button"
+              id="take-order-btn"
+              class="take-order-btn btn btn-outline-dark btn-lg"
+              style="margin-left: auto;
+              margin-right: auto;
+              position: relative;"
+            >
+              Take Order
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container bill-div" hidden>
+        <!-- take order card -->
+        <div class="card take-order-card col-sm-12" style="width: 18rem">
+          <div class="card-body take-order-card-body">
+            <div class="text-center">
+              <h5 class="card-title">Take Order</h5>
+            </div>
+
+            <!-- <input type="text" id="add-dish-input-field" class="form-control" placeholder="Enter Item"> -->
+            <!-- modal -->
+
+            <!-- Button trigger modal -->
+            <button
+              type="button"
+              id="modal-btn"
+              class="modal-btn btn btn-primary container-fluid"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              select item
+            </button>
+            <div class="quantity">
+              <label for="quantity">Quantity</label>
+              <input
+                type="number"
+                id="dish-quantity"
+                class="form-control form-control quantity-input"
+                min="1"
+                value="1"
+              />
+              <button id="add-dish-btn" class="btn add-btn btn-primary">
+                add
+              </button>
+            </div>
+
+            <label class="form-check-label">Payment Type</label>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="payment"
+                id="payment-type-Cash"
+                value="Cash"
+                checked
+              />
+              <label class="form-check-label" for="exampleRadios1">
+                Cash
+              </label>
+            </div>
+
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="payment"
+                id="payment-type-UPI"
+                value="UPI"
+              />
+              <label class="form-check-label" for="exampleRadios3"> UPI </label>
+            </div>
+
+            <div class="btn-group-take-order">
+              <button
+                id="take-order-cancel-btn"
+                class="btn take-order take-order-btn-cancel btn-danger"
+              >
+                Cancel
+              </button>
+              <button
+                id="take-order-submit-btn"
+                class="btn take-order take-order-btn-submit btn-primary"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bill-card col-sm-12">
+          <div class="card-body">
+            <h5 class="card-title">Bill #</h5>
+          <form role="form" method="post" action="{%url 'billhandle' %}">
+
+
+
+            <table class="table table-borderless">
+              <thead>
+                <hr />
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody id="order-list"></tbody>
+            </table>
+            
+              <b>Total payment : <div id="total-payment"></div></b>
+            
+            
+              <b>Payment type: <div id="payment-type"></div></b>
+
+            <div class="bill-btn-group">
+              <button type="submit" class="bill-btn bill-btn-print btn btn-sm btn-primary" id="genpdf">
+                print
+              </button>
+              <div id="downpdf">
+
+              </div>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Modal -->
+
+      <div
+        class="modal fade modal-dialog"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Menu Items</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <input
+                type="text"
+                id="searchInput"
+                class="form-control mb-3"
+                placeholder="Search The Item"
+              />
+
+              <!-- List of items -->
+              <div
+                class="scrollable-list"
+                style="max-height: 200px; overflow-y: auto"
+              >
+                <ul id="menu-item-list" class="list-group"></ul>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                id="select-item-btn"
+                data-bs-dismiss="modal"
+                class="btn btn-primary"
+              >
+                Select
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- bootstrap -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- custom js -->
+    <script src="{% static 'js/emp_dashboard.js' %}" type="module"></script>
+
+    <!-- module -->
+    <script src="{% static 'js/menu.js' %}" type="module"></script>
+
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+  </body>
+</html>

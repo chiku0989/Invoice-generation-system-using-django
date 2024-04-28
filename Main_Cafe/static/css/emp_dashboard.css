@@ -1,0 +1,111 @@
+body {
+  background-color: #e6e6e6;
+}
+
+.main-div {
+  height: 100vh;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 130px;
+}
+
+.navbar-toggler-icon {
+  font-size: 1.5rem;
+}
+
+.take-order {
+  margin: 5px;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  margin: 5%;
+}
+
+.quantity-input {
+  width: 30%;
+  margin: 0 2rem 0 0.5rem;
+}
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  opacity: 1;
+  margin: 0;
+}
+
+.add-btn {
+  position: relative;
+  left: 1rem;
+}
+
+.take-order-card {
+  margin: 1rem;
+}
+
+.bill-btn {
+  margin: 10px;
+}
+
+.bill-card {
+  width: 18rem;
+  margin: 1rem;
+}
+
+.bill-div {
+  padding: 20px 0 0 0;
+  display: flex;
+  justify-content: center;
+}
+
+.bill-btn-group {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-group-take-order {
+  position: relative;
+  top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+#total-payment {
+  position: relative;
+  left: 4rem;
+}
+
+@media screen and (max-width: 925px) {
+  .bill-div {
+    display: inline;
+  }
+
+  .main-div {
+    height: auto;
+  }
+
+  .bill-div {
+    position: relative;
+    left: 20%;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-body {
+  width: 30rem;
+}
+
+.list-group-item:hover {
+  background-color: #02bafa;
+}

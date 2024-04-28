@@ -1,0 +1,133 @@
+body{
+    background-color: #e6e6e6;
+}
+
+.logo-img {
+    height: 130px;
+  }
+
+.modal-btn{
+    padding : 2%;
+  }
+
+.modal-btn button{
+    width: 9.5rem;
+    display: flex;
+    margin: 0 auto 0;
+
+}
+
+.card{
+    height: 525px;
+    width: 20rem;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.card-body{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-top{
+    height: 250px;
+    
+}
+
+.card-container{
+    height: 100vh;
+}
+
+.col-lg-4 .card{
+    margin: 3% auto;
+    
+}
+
+.price-holder label, .price-holder input{
+    margin: 10px 8px;
+}
+
+.item-price{
+    position: relative;
+    margin-left: auto;
+    width: 50%;
+}
+
+.update-btn-inside{
+    position: relative;
+    margin-left: auto;
+}
+
+.hidden{
+    position: absolute;
+    visibility: hidden;
+}
+
+@media screen and (max-width : 992px) {
+    .card-container{
+        height: auto;
+    }
+}
+#search-input{
+    margin : 5px 0;
+}
+
+.item-price input{
+    display: flex;
+    margin-left : auto;
+    width: 40%;
+}
+
+.input-add-emp-search{
+    margin : 5px;
+}
+
+.delete-usr-btn{
+    position: relative;
+    margin-left: auto;
+}
+.emp-name{
+    
+    margin-left: 6rem;
+    
+}
+
+ .emp-doj{
+    margin: 0 3rem;
+}
+
+.bill-details span{
+    padding: 0 1rem;
+    justify-content: center;
+}
+
+.bill-heading span{
+    position: relative;
+    left : 3rem;
+    margin: 0 3rem 0 0;
+}
+
+ .bill-no-heading{
+    left: 40px;
+}
+
+
+.delete-bill-heading span{
+position: relative;
+margin: 0 0 0 3rem;
+}
+
+.delete-bill-btn{
+    position: relative;
+    margin-left: auto;
+}
+
+.view-bill-inside-btn{
+    height: 70%;
+    position: relative;
+    margin-left: auto;
+}
+
+#individual-bill-modal{
+    z-index: 1000;
+}

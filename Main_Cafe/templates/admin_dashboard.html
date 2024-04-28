@@ -1,0 +1,545 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" />
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css'%}" />
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <div class="container main-div position-relative p-0 bg-white main-div">
+      <!-- navbar -->
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-white px-4 px-lg-5 py-3 py-lg-0"
+      >
+        <a href="#" class="navbar-brand p-0">
+          <div class="navbar-logo d-flex align-items-center">
+            <img class="logo-img" src="{% static 'images/random_waffle_logo.jpg'%}" alt="" />
+            <h1>Waffle Delight</h1>
+          </div>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto py-0 d-flex justify-content-center align-items-center">
+
+            <h6 style="margin: 6px;">{{request.user.username}}</h6>
+
+            <a
+              href="{%url 'logout' %}"
+              class="btn btn-danger rounded-pill text-white logout-btn"
+              >logout</a
+            >
+          </div>
+        </div>
+      </nav>
+      <!-- navbar end -->
+    </div>
+
+    <div class="container bg-white card-container">
+      <div class="row">
+        <div class="col-lg-4">
+          <!-- Employee Card Start-->
+
+          <div class="card shadow">
+            <img
+              src="{% static 'images/employee-working.jpg' %}"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">Manage Employees</h5>
+              <p>Use these buttons to add, update, delete user accounts</p>
+              <!-- add emp start  -->
+              <!-- Button trigger modal -->
+              <div class="modal-btn">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#add-emp"
+                >
+                  Add Employee
+                </button>
+              </div>
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="add-emp"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">
+                        Add Employee
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        class="closemodal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <form action="{% url 'addemp' %}" method="POST">
+                      {% csrf_token %}
+
+                      <div class="modal-body">
+                        <input type="text" autocomplete="off" name="emp_name" class="input-add-emp-search form-control" placeholder="Enter Name">
+                        <input type="text" autocomplete="off" name="emp_username" class="input-add-emp-search form-control" placeholder="Enter UserName">
+                        <input type="password" name="emp_password" class="input-add-emp-search form-control" placeholder="Create Password">
+                      </div>
+                      
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="submit"
+                          class="btn btn-primary"
+                          data-bs-dismiss="modal"
+                        >
+                          Submit
+                        </button>
+                      </div>
+      
+                    </form>
+                    
+                  </div>
+                </div>
+              </div>
+              <!-- add emp end -->
+              <!-- delete emp start -->
+              <div class="modal-btn">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#delete-emp"
+                  id="getemp"
+                >
+                  Delete Employee
+                </button>
+              </div>
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="delete-emp"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">
+                        Delete Employee
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container">
+
+                        <table style="width:300px;">
+                          <tr>
+                            <th>Sr No</th>
+                            <th class="emp-heading">Name</th>
+                            <th class="emp-heading">DOJ</th>
+                          </tr>
+                        </table>
+
+                      </div>
+
+                      
+                      <div class="scrollable-list"
+                      style="max-height: 200px; overflow-y: auto"
+                      >
+                        <ol class="emp-list list-group">
+
+                        </ol>
+                      </div>
+                      
+
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- delete emp end -->
+            </div>
+          </div>
+          <!-- Employee card End -->
+        </div>
+
+        <div class="col-lg-4">
+
+
+         
+          <!-- Recipe card Start-->
+          <div class="card shadow">
+            <img
+              src="{% static 'images/random_waffle_logo.jpg' %}"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title">Manage Menu</h5>
+              <p>Use these buttons to add, delete, Menu Items</p>
+              <!--  Add Menu Start -->
+              <!-- button -->
+              <div class="modal-btn">
+                <button
+                  id="add-dish-btn"
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#add-recipe"
+                >
+                  Add Dish
+                </button>
+              </div>
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="add-recipe"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">
+                        Add Dish
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- inside add dish code start -->
+
+                      <form method = "POST" action="{% url 'add_dish' %}">
+                        {%csrf_token%}
+                        <input
+                        type="text"
+                        name="dish_name"
+                        class="form-control container"
+                        id="add-dish-name-input"
+                        autocomplete="off"
+                        placeholder="Enter Name of Dish"
+                      />
+                      <div
+                        class="container d-flex align-items-center price-holder"
+                      >
+                        <label>MRP</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="add-dish-price-input"
+                          name="dish_price"
+                          value="0"
+                          autocomplete="off"
+                          placeholder="Enter price"
+                        />
+                      </div> 
+                      <!-- inside add dish code end  -->
+                    </div>
+                    <div class="modal-footer">
+                      <button
+
+                        id="add-dish-submit-btn"
+                        type="submit"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
+                        Submit
+                      </button>
+                    </form>
+
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Add Dish End -->
+
+              <!-- Update Dish Start -->
+              <div class="modal-btn">
+                <button
+                  id="update-dish-btn"
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#update-recipe"
+                >
+                  Update Dish
+                </button>
+              </div>
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="update-recipe"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">
+                        Update Dish
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- model body start -->
+                      <input
+                        type="text"
+                        id=""
+                        class=" search-input form-control"
+                        autocomplete="off"
+                        placeholder="Enter Dish Name"
+                      />
+                      <!-- List of items -->
+                      <div
+                        id="item-list"
+                        class="scrollable-list"
+                        style="max-height: 200px; overflow-y: auto"
+                      >
+                        <ul id="menu-item-list" class="list-group"></ul>
+                      </div>
+                      <!-- end body -->
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        id="update-dish-close-btn"
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Update Dish End -->
+            </div>
+          </div>
+          <!-- Menu Card End  -->
+        </div>
+
+        <div class="col-lg-4">
+          <!-- Bill Card Start -->
+          <div class="card shadow">
+            <img src="{% static 'images/invoice.jpg' %}" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">Manage Bills</h5>
+              <p class="card-text">View and Manage bills from here</p>
+              <!-- start view bills -->
+              <div class="modal-btn">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#view-bills"
+                  id="getbill"
+                >
+                  View Bills
+                </button>
+              </div>
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="view-bills"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">
+                        Bills
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container bill-heading"><span class="bill-no-heading">Bill No. #</span> <span>Type</span> <span>Total</span></div>
+                      <div class="container scrollable-list" style="max-height: 200px; overflow-y: auto">
+                        <ul class="bill-list list-group" ></ul>
+                      </div>
+
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
+                        Understood
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- end view bills  -->
+
+              <!-- start manage bills-->
+              <div class="modal-btn">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#delete-bills"
+                  id="getbill-delete"
+                >
+                  Delete Bills
+                </button>
+              </div>
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="delete-bills"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabindex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">
+                        Delete Bills
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="container delete-bill-heading"><span class="">Bill No. #</span> <span>Type</span> <span>Total</span></div>
+                      <div class="container scrollable-list" style="max-height: 200px; overflow-y: auto">
+                        <ul class="bill-list list-group" id="delete-bill-list"></ul>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- end  manage bills -->
+            </div>
+          </div>
+          <!-- Bill card End -->
+        </div>
+      </div>
+
+    </div>
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script>
+    // $.ajax({
+    //    type: "GET",
+    //    url:"/confirm/",
+    //    success: function(response){
+    //      window.location.reload(true)
+    //    },
+    //    error:function(error){
+    //     console.log(error)
+    //    }
+    //  })
+</script>
+    <!-- bootstrap js -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- jquery -->
+
+    <!-- custom js -->
+    <script src="{% static 'js/admin_dashboard.js' %}" type="module"></script>
+
+    <!-- menu js -->
+    <script src="{% static 'js/menu.js' %}" type="module"></script>
+  </body>
+</html>
